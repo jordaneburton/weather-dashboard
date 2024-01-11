@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- use day.js to easily format dates -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"
+        integrity="sha512-0fcCRl828lBlrSCa8QJY51mtNqTcHxabaXVLPgw/jPA5Nutujh6CbTdDgRzl9aSPYW/uuE7c4SffFUQFBAy6lg=="
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"
+        integrity="sha512-m00bfmYnAl3plEBlQfeQUhw/U2uvmw29V2+jxSWpAjankMWS+zAsjezbKWDEJNXqWq9o9qQZSOiA2RKDpa4D5w=="
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/timezone.min.js"
+        integrity="sha512-pslqxxHAYPCxaSeFSmXXxDkLejD5dbFVC66aiVq0z4v7VTJBU+wqcG1OpNh4p3MjS2D6NCwz/H2QmSc7dXxryg=="
+        crossorigin="anonymous"></script>
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <h1>Jordan Burton's Weather Dashboard</h1>
+        
+    </header>
+
+    <main>
+        <section>
+            <form  id="search-box" action="" method="post">
+                <label for="search-input">Search</label>
+                <input type="search" name="search-input" id="search-input">
+                <label for="search-submit">Submit</label>
+                <input type="submit" value id="search-submit">
+            </form>
+
+        </section>
+
+        <section class="current-weather">
+            <h4>Current Weather</h4>
+
+        </section>
+
+        <section class="forecast-weather">
+            <h4>Five Day Forecast</h4>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>@jordaneburton</p>
+
+    </footer>
+
+    <script src="./assets/index.js"></script>
+
+</body>
+
+</html>
