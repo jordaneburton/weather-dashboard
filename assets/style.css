@@ -1,4 +1,5 @@
 .bg-dark-primary {
-    background-color: blue;
+    /* background-color: darkblue; */
+    background-image: linear-gradient(darkblue, blue);
     color: white;
 }

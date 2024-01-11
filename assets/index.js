@@ -3,7 +3,9 @@ const apiKey = '0d40257ff07003acbd6df6e687a9f317';
 const searchEl = document.querySelector('#search-box');
 const searchInputEl = document.querySelector('#search-input');
 const currentWeatherEl = document.querySelector('.current-weather');
+const weatherHeader = document.querySelector('.weather-header');
 const forecastEl = document.querySelector('.forecast-weather');
+const forecastHeader = document.querySelector('.forecast-header');
 
 // function for fetching coordinates of submitted location
 function fetchCoords() {
@@ -18,7 +20,9 @@ function fetchCoords() {
                 console.log(response.status);
             } else {
                 currentWeatherEl.classList.remove('d-none');
+                weatherHeader.classList.remove('d-none');
                 forecastEl.classList.remove('d-none');
+                forecastHeader.classList.remove('d-none');
             }
             return response.json();
 
@@ -32,16 +36,26 @@ function fetchCoords() {
                 };
 
                 // use latitude and longitude in fetching forecast and current weather
-                fetchForecast(returnCoords);
-                fetchCurrentWeather(returnCoords);
+                const fiveDayForecast = fetchForecast(returnCoords);
+                const currentWeather = fetchCurrentWeather(returnCoords);
+                
+
 
             }
         })
 
 }
 
+// function for settin up current weather section
 function fetchCurrentWeather(coords = {}) {
     console.log('fetching current weather ...');
+    
+}
+
+// function that calls the API and fetchs the forecast
+function fetchForecast(coords = {}) {
+    console.log('fetching forecast ...');
+    console.log({coords});
 
     const apiEndpointWeather = `${apiUrl}/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${apiKey}`; // excluding &exclude=minutely,hourly,daily,alerts
     fetch(apiEndpointWeather)
@@ -50,19 +64,32 @@ function fetchCurrentWeather(coords = {}) {
             return response.json();
         })
         .then(function (data) {
+
             console.log(data);
+            // form each day's forecast and add it to a forecast array
+            const returnForecast = [];
+            for (let i=1; i < 6; i++) {
+                const dataForecast = {};
+                dataForecast.date = dayjs.unix(data.daily[i].dt).format('MM/DD/YYYY');
+                const iconCode = data.daily[i].weather[0].icon;
+                dataForecast.iconLink = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+                dataForecast.temp = data.daily[i].temp.day;
+                dataForecast.wind = data.daily[i].wind_speed;
+                dataForecast.humidity = data.daily[i].humidity;
+                returnForecast.push(dataForecast);
+            }
 
-            console.log('current');
-            console.log(dayjs.unix(data.current.dt).format('MM/DD/YYYY'))
-
-            console.log('daily');
-            console.log(dayjs.unix(data.daily[1].dt).format('MM/DD/YYYY'))
+            // remove any displayed forecast cards
+            while (forecastEl.firstChild) {
+                forecastEl.removeChild(forecastEl.lastChild);
+            }
+            // iterate through array and append forecast cards to forecast section
+            for (day of returnForecast) {
+                console.log('adding forecast');
+                createForecastCard(day);
+            }
         })
-}
 
-function fetchForecast(coords = {}) {
-    console.log('fetching forecast ...');
-    console.log({coords});
 }
 
 /* <div class="card col-6 col-md-3 col-lg-2 mx-md-2 bg-dark-primary">
@@ -88,7 +115,7 @@ function createForecastCard(forecast = {}) {
 
     // Create card container and card body
     const card = document.createElement('div');
-    card.classList.add('card', 'col-6', 'col-md-3', 'col-lg-2', 'mx-md-2', 'bg-dark-primary')
+    card.classList.add('card', 'col-6', 'col-md-4', 'col-lg-3', 'my-md-2','mx-md-2', 'bg-dark-primary')
     
     const cardBody = document.createElement('div')
     card.append(cardBody);
