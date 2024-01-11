@@ -14,34 +14,81 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/timezone.min.js"
         integrity="sha512-pslqxxHAYPCxaSeFSmXXxDkLejD5dbFVC66aiVq0z4v7VTJBU+wqcG1OpNh4p3MjS2D6NCwz/H2QmSc7dXxryg=="
         crossorigin="anonymous"></script>
+
+    <!-- for css bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+        crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+        crossorigin="anonymous"></script>  
+
+    <!-- custom stylesheet -->
+    <link rel="stylesheet" href="./assets/style.css">
+    
     <title>Weather Dashboard</title>
 </head>
 
 <body>
-    <header>
-        <h1>Jordan Burton's Weather Dashboard</h1>
-        
+    <header class="container m-0 p-2 p-md-3 bg-primary text-white rounded-end-pill">
+        <h1>Weather Dashboard</h1>
     </header>
 
-    <main>
-        <section>
-            <form  id="search-box" action="" method="post">
-                <label for="search-input">Search</label>
-                <input type="search" name="search-input" id="search-input">
-                <label for="search-submit">Submit</label>
-                <input type="submit" value id="search-submit">
+    <main class="container mx-md-5 my-md-3">
+        <section class="my-2">
+            <form  id="search-box" action="" method="post" class="row">
+                <label for="search-input" class="mt-3 fst-italic col-9">Type your city name to see the forecast for the week</label>
+                <div class="col-12 col-md-9 h-50">
+                    <input type="search" name="search-input" id="search-input" placeholder="City" class="form-control my-3">
+                </div>
+                <button type="submit" value id="search-submit" class="col-6 col-md-3 btn btn-primary my-md-3 mx-auto mx-md-0 h-50">Get Forecast</button>
             </form>
 
         </section>
 
-        <section class="current-weather">
+        <section id="recent-searches row">
+            <!-- for recent searches -->
+        </section>
+
+        <section class="current-weather row">
             <h4>Current Weather</h4>
 
         </section>
 
-        <section class="forecast-weather">
-            <h4>Five Day Forecast</h4>
+        <section class="forecast-weather row mx-1 mt-3">
+            <h4>5-Day Forecast</h4>
 
+            <div class="card col-6 col-md-3 col-lg-2 mx-md-2 bg-dark-primary">
+                <div class="card-body">
+                    <h5 id="day1" class="card-title mb-3 text-start">Card title<img src="https://openweathermap.org/img/wn/10d@2x.png"></h5>
+                    <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
+                    <!-- <p class="card-text">
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p> -->
+                    <ul class="list-unstyled card-text">
+                        <li class="temp">Temp: </li>
+                        <li class="wind">Wind: </li>
+                        <li class="humidity">Humidity: </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card col-6 col-md-3 col-lg-2 mx-md-2 bg-dark-primary">
+                <div class="card-body">
+                    <h5 id="day5" class="card-title mb-3">Card title<img src="https://openweathermap.org/img/wn/10d@2x.png"></h5>
+                    <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
+                    <!-- <p class="card-text">
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p> -->
+                    <ul class="list-unstyled card-text">
+                        <li class="temp">Temp: </li>
+                        <li class="wind">Wind: </li>
+                        <li class="humidity">Humidity: </li>
+                    </ul>
+                </div>
+            </div>
+            
         </section>
     </main>
 
