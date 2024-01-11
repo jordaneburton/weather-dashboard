@@ -2,7 +2,8 @@ const apiUrl = 'https://api.openweathermap.org';
 const apiKey = '0d40257ff07003acbd6df6e687a9f317';
 const searchEl = document.querySelector('#search-box');
 const searchInputEl = document.querySelector('#search-input');
-const forecastEl = document.querySelector('.forecast-weather')
+const currentWeatherEl = document.querySelector('.current-weather');
+const forecastEl = document.querySelector('.forecast-weather');
 
 // function for fetching coordinates of submitted location
 function fetchCoords() {
@@ -15,6 +16,9 @@ function fetchCoords() {
             // check for response.status
             if (!(response.status >= 200 && response.status < 300)) {
                 console.log(response.status);
+            } else {
+                currentWeatherEl.classList.remove('d-none');
+                forecastEl.classList.remove('d-none');
             }
             return response.json();
 
@@ -81,7 +85,6 @@ function createForecastCard(forecast = {}) {
         wind:
         humidity:
     } */
-    console.log('this happened');
 
     // Create card container and card body
     const card = document.createElement('div');
@@ -122,7 +125,7 @@ function createForecastCard(forecast = {}) {
     weatherAttr.appendChild(wind);
     weatherAttr.appendChild(humidity);
 
-
+    // append the card to the forecast section
     forecastEl.append(card);  
 }
 
@@ -154,4 +157,3 @@ searchEl.addEventListener('submit', (event) => {
 })
 
 
-createForecastCard({date: 'Card title', iconLink: 'https://openweathermap.org/img/wn/10d@2x.png'});
