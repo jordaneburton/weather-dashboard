@@ -198,7 +198,7 @@ function createCurrentWeatherCard(forecast = {}) {
 // function for saving recent searches to localStorage
 function saveSearches() {
     // save an array to 
-    const userInput = searchInputEl.value.trim().toUpperCase();
+    const userInput = pascalCase(searchInputEl.value);
 
     // if array does not exist, make it
     if (localStorage.getItem('recentSearches') === null) {
@@ -244,6 +244,20 @@ function searchFromRecent() {
     fetchCoords();
 }
 
+// turns a string into PascalCase
+function pascalCase(inputStr) {
+    inputStr = inputStr.trim();
+    
+    const inputArr = inputStr.split(' ');
+    inputStr = '';
+    for (word of inputArr) {
+        word = word.charAt(0).toUpperCase() + word.slice(1);
+        word = word + ' ';
+        inputStr = inputStr + word;
+    }
+
+    return inputStr.trim();
+}
 
 
 // listener to submit a search via the search button
