@@ -71,6 +71,7 @@ function fetchForecast(coords = {}) {
             dataWeather.date = dayjs.unix(data.current.dt).format('MM/DD/YYYY');
             const currentIconCode = data.current.weather[0].icon;
             dataWeather.iconLink = `https://openweathermap.org/img/wn/${currentIconCode}@2x.png`;
+            dataWeather.iconLabel = data.current.weather[0].description;
             dataWeather.temp = data.current.temp;
             dataWeather.wind = data.current.wind_speed;
             dataWeather.humidity = data.current.humidity;
@@ -83,6 +84,7 @@ function fetchForecast(coords = {}) {
                 dataForecast.date = dayjs.unix(data.daily[i].dt).format('MM/DD/YYYY');
                 const iconCode = data.daily[i].weather[0].icon;
                 dataForecast.iconLink = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+                dataForecast.iconLabel = data.daily[i].weather[0].description;
                 dataForecast.temp = data.daily[i].temp.day;
                 dataForecast.wind = data.daily[i].wind_speed;
                 dataForecast.humidity = data.daily[i].humidity;
@@ -137,6 +139,7 @@ function createForecastCard(forecast = {}) {
     // add icon to header
     const icon = document.createElement('img');
     icon.src = forecast.iconLink;
+    icon.ariaLabel = forecast.iconLabel;
     cardHeader.innerHTML = forecast.date;
     cardHeader.appendChild(icon);
     cardHeader.classList.add('card-title', 'mb-3');
@@ -183,6 +186,7 @@ function createCurrentWeatherCard(forecast = {}) {
     // add icon to header
     const icon = document.createElement('img');
     icon.src = forecast.iconLink;
+    icon.ariaLabel = forecast.iconLabel;
     cardHeader.innerHTML = forecast.date;
     cardHeader.appendChild(icon);
     cardHeader.classList.add('card-title', 'mb-3', 'fs-3', 'text', 'text-center');
@@ -211,16 +215,6 @@ function createCurrentWeatherCard(forecast = {}) {
     // append the card to the forecast section
     currentWeatherEl.append(card);  
 }
-
-// present city name, date, weather icon
-// temp, wind speed, humidity 
-
-// to access data
-// date - data.daily[0]/current.dt
-// icon - data.daily/current.weather[0].icon
-// temp - data.daily/current.temp.day/max/min
-// wind - data.daily/current.wind_speed
-// humidity - data.daily/current.humidity
 
 
 

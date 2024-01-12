@@ -14,3 +14,34 @@
 body {
     width: 100%;
 }
+
+.recent-search-pos {
+    top: 10%;
+    right: 0;
+
+    /* width: 10vw; */
+}
+
+.recent-search-card {
+    background-color: rgb(170, 232, 255);
+    color: black;
+    text-align: center;
+    /* font-weight: bold; */
+    /* text-shadow: 1px 1px 2px black; */
+}
+
+.icon-size {
+    width: 48px;
+    height: 48px;
+}
+
+@media (min-width: 768px) {
+    .recent-search-pos {
+        top: 0%;
+    }
+    
+    .icon-size {
+        width: 64px;
+        height: 64px;
+    }
+}
