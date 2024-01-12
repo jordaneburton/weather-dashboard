@@ -68,7 +68,7 @@ function fetchForecast(coords = {}) {
             console.log(data);
             // form each day's forecast and add it to a forecast array
             const returnForecast = [];
-            for (let i=1; i < 6; i++) {
+            for (let i=1; i < 7; i++) {
                 const dataForecast = {};
                 dataForecast.date = dayjs.unix(data.daily[i].dt).format('MM/DD/YYYY');
                 const iconCode = data.daily[i].weather[0].icon;
@@ -115,7 +115,7 @@ function createForecastCard(forecast = {}) {
 
     // Create card container and card body
     const card = document.createElement('div');
-    card.classList.add('card', 'col-6', 'col-md-4', 'col-lg-3', 'my-md-2','mx-md-2', 'bg-dark-primary')
+    card.classList.add('card', 'col-6', 'col-md-4', 'col-lg-3', 'my-1', 'my-md-2','mx-md-2', 'bg-dark-primary')
     
     const cardBody = document.createElement('div')
     card.append(cardBody);

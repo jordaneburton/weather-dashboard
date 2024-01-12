@@ -3,3 +3,7 @@
     background-image: linear-gradient(darkblue, blue);
     color: white;
 }
+
+body {
+    width: 100%;
+}
