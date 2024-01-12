@@ -9,6 +9,10 @@ const forecastHeader = document.querySelector('.forecast-header');
 const searchesListEl = document.querySelector('#searchesList');
 const noSearchesEl = document.querySelector('#noRecentSearches');
 
+
+// FUNCTIONS
+
+
 // function for fetching coordinates of submitted location
 function fetchCoords() {
     const apiEndpointCoords = `${apiUrl}/geo/1.0/direct?q=${searchInputEl.value}&appid=${apiKey}`;  // excluding &limit=${limit}
@@ -258,6 +262,9 @@ function pascalCase(inputStr) {
 
     return inputStr.trim();
 }
+
+
+// EVENT LISTENERS
 
 
 // listener to submit a search via the search button

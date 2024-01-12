@@ -1,11 +1,9 @@
 .bg-dark-primary {
-    /* background-color: darkblue; */
     background-image: linear-gradient(darkblue, blue);
     color: white;
 }
 
 .bg-light-primary {
-    /* background-color: darkblue; */
     background-image: linear-gradient(rgb(0, 98, 255), skyblue);
     color: white;
     text-shadow: 1px 1px 3px black;
@@ -18,8 +16,6 @@ body {
 .recent-search-pos {
     top: 10%;
     right: 0;
-
-    /* width: 10vw; */
 }
 
 .recent-search-card {
