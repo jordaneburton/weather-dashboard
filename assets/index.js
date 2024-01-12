@@ -8,6 +8,7 @@ const forecastEl = document.querySelector('.forecast-weather');
 const forecastHeader = document.querySelector('.forecast-header');
 const searchesListEl = document.querySelector('#searchesList');
 const noSearchesEl = document.querySelector('#noRecentSearches');
+const inputCityEl = document.querySelector('#inputCity');
 
 
 // FUNCTIONS
@@ -156,6 +157,8 @@ function createCurrentWeatherCard(forecast = {}) {
     // Almost identical to create forecast function but different bootstrap styling
 
     // Create card container and card body
+    inputCityEl.textContent = pascalCase(searchInputEl.value);
+
     const card = document.createElement('div');
     card.classList.add('card', 'col-12', 'col-md-9', 'col-lg-6', 'my-1', 'my-md-2','mx-md-2', 'bg-light-primary')
     
