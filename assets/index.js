@@ -9,12 +9,10 @@ const forecastHeader = document.querySelector('.forecast-header');
 
 // function for fetching coordinates of submitted location
 function fetchCoords() {
-    const apiEndpointCoords = `${apiUrl}/geo/1.0/direct?q=${searchInputEl.value}&appid=${apiKey}`;  // excluding &limit=${limit}
+    const apiEndpointCoords = `${apiUrl}/geo/1.0/direct?q=${searchInputEl.value.trim()}&appid=${apiKey}`;  // excluding &limit=${limit}
     
     fetch(apiEndpointCoords) 
         .then(function (response) {
-            console.log(response)
-
             // check for response.status
             if (!(response.status >= 200 && response.status < 300)) {
                 console.log(response.status);
@@ -23,13 +21,14 @@ function fetchCoords() {
                 weatherHeader.classList.remove('d-none');
                 forecastEl.classList.remove('d-none');
                 forecastHeader.classList.remove('d-none');
+                
+                saveSearches();
             }
             return response.json();
 
         })
         .then(function (data) {
             if (!data.cod) {
-                // console.log(data[0].lat)
                 const returnCoords = {
                     lat: data[0].lat, 
                     lon: data[0].lon
@@ -37,35 +36,21 @@ function fetchCoords() {
 
                 // use latitude and longitude in fetching forecast and current weather
                 const fiveDayForecast = fetchForecast(returnCoords);
-                // const currentWeather = fetchCurrentWeather(returnCoords);
-                
-
-
             }
         })
 
 }
 
-// function for settin up current weather section
-function fetchCurrentWeather(coords = {}) {
-    console.log('fetching current weather ...');
-    
-}
-
 // function that calls the API and fetchs the forecast
 function fetchForecast(coords = {}) {
-    console.log('fetching forecast ...');
-    console.log({coords});
 
     const apiEndpointWeather = `${apiUrl}/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${apiKey}`; // excluding &exclude=minutely,hourly,daily,alerts
     fetch(apiEndpointWeather)
         .then(function (response) {
-            console.log(response);
             return response.json();
         })
         .then(function (data) {
 
-            console.log(data);
             // create and append current weather card
             dataWeather = {};
             dataWeather.date = dayjs.unix(data.current.dt).format('MM/DD/YYYY');
@@ -97,25 +82,13 @@ function fetchForecast(coords = {}) {
             }
             // iterate through array and append forecast cards to forecast section
             for (day of returnForecast) {
-                console.log('adding forecast');
                 createForecastCard(day);
             }
         })
 
 }
 
-/* <div class="card col-6 col-md-3 col-lg-2 mx-md-2 bg-dark-primary">
-    <div class="card-body">
-        <h5 id="day1" class="card-title mb-3 text-start">Card title<img src="https://openweathermap.org/img/wn/10d@2x.png"></h5>
-            
-        <ul class="list-unstyled card-text">
-            <li class="temp">Temp: </li>
-            <li class="wind">Wind: </li>
-            <li class="humidity">Humidity: </li>
-        </ul>
-    </div>
-</div> */
-
+// function for creating our forecast cards
 function createForecastCard(forecast = {}) {
     /* forecast {  
         date:
@@ -169,6 +142,7 @@ function createForecastCard(forecast = {}) {
     forecastEl.append(card);  
 }
 
+// function for creating our current weather card (very similar to previous function)
 function createCurrentWeatherCard(forecast = {}) {
     // Almost identical to create forecast function but different bootstrap styling
 
@@ -216,7 +190,30 @@ function createCurrentWeatherCard(forecast = {}) {
     currentWeatherEl.append(card);  
 }
 
+// function for saving recent searches to localStorage
+function saveSearches() {
+    // save an array to 
+    const userInput = searchInputEl.value.trim();
 
+    // if array does not exist, make it
+    if (localStorage.getItem('recentSearches') === null) {
+        localStorage.setItem('recentSearches', JSON.stringify([]));
+    }
+
+    const searchesArray = JSON.parse(localStorage.getItem('recentSearches'));
+
+    // check if user input already exists in array
+    if (!searchesArray.includes(userInput)) {
+
+        // if the array has 10 searches, remove the earliest search
+        if (searchesArray.length == 10) {
+            searchesArray.shift();
+        }
+        searchesArray.push(userInput);
+    }
+
+
+}
 
 
 
@@ -227,9 +224,7 @@ function createCurrentWeatherCard(forecast = {}) {
 
 searchEl.addEventListener('submit', (event) => {
     event.preventDefault();
-    console.log()
+    
     fetchCoords();
-    // fetchForecast(coordinates);
 })
-
 
