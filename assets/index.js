@@ -6,10 +6,12 @@ const currentWeatherEl = document.querySelector('.current-weather');
 const weatherHeader = document.querySelector('.weather-header');
 const forecastEl = document.querySelector('.forecast-weather');
 const forecastHeader = document.querySelector('.forecast-header');
+const searchesListEl = document.querySelector('#searchesList');
+const noSearchesEl = document.querySelector('#noRecentSearches');
 
 // function for fetching coordinates of submitted location
 function fetchCoords() {
-    const apiEndpointCoords = `${apiUrl}/geo/1.0/direct?q=${searchInputEl.value.trim()}&appid=${apiKey}`;  // excluding &limit=${limit}
+    const apiEndpointCoords = `${apiUrl}/geo/1.0/direct?q=${searchInputEl.value}&appid=${apiKey}`;  // excluding &limit=${limit}
     
     fetch(apiEndpointCoords) 
         .then(function (response) {
@@ -23,6 +25,7 @@ function fetchCoords() {
                 forecastHeader.classList.remove('d-none');
                 
                 saveSearches();
+                updateSearches();
             }
             return response.json();
 
@@ -60,6 +63,8 @@ function fetchForecast(coords = {}) {
             dataWeather.temp = data.current.temp;
             dataWeather.wind = data.current.wind_speed;
             dataWeather.humidity = data.current.humidity;
+
+            currentWeatherEl.removeChild(currentWeatherEl.lastChild);
             createCurrentWeatherCard(dataWeather);
 
             // form each day's forecast and add it to a forecast array
@@ -193,7 +198,7 @@ function createCurrentWeatherCard(forecast = {}) {
 // function for saving recent searches to localStorage
 function saveSearches() {
     // save an array to 
-    const userInput = searchInputEl.value.trim();
+    const userInput = searchInputEl.value.trim().toUpperCase();
 
     // if array does not exist, make it
     if (localStorage.getItem('recentSearches') === null) {
@@ -212,19 +217,47 @@ function saveSearches() {
         searchesArray.push(userInput);
     }
 
+    localStorage.setItem('recentSearches', JSON.stringify(searchesArray));
+}
 
+// function for updating our collapse search cards
+function updateSearches() {
+    if (localStorage.getItem('recentSearches') === null) {
+        return;
+    }
+
+    const ourSearches = JSON.parse(localStorage.getItem('recentSearches'));
+    searchesListEl.innerHTML = '';
+
+    for (localSearch of ourSearches) {
+        // create search card and add it to collapse list
+        const searchCard = document.createElement('li');
+        searchCard.classList.add('list-group-item', 'recent-search-card', 'text-center');
+        searchCard.textContent = localSearch;
+        searchesListEl.appendChild(searchCard);
+    }
+}
+
+// handler for recent search listener
+function searchFromRecent() {
+    searchInputEl.value = this.textContent;
+    fetchCoords();
 }
 
 
 
-
-
-
-
-
+// listener to submit a search via the search button
 searchEl.addEventListener('submit', (event) => {
     event.preventDefault();
-    
     fetchCoords();
 })
 
+// listener to submit a search via the recent searches
+searchesListEl.addEventListener('click', (event) => {
+    if (event.target.closest('.recent-search-card')) {
+      searchFromRecent.call(event.target, event);
+    }
+});
+
+// update recent searches when opening page
+updateSearches();
