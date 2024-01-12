@@ -37,7 +37,7 @@ function fetchCoords() {
 
                 // use latitude and longitude in fetching forecast and current weather
                 const fiveDayForecast = fetchForecast(returnCoords);
-                const currentWeather = fetchCurrentWeather(returnCoords);
+                // const currentWeather = fetchCurrentWeather(returnCoords);
                 
 
 
@@ -66,6 +66,16 @@ function fetchForecast(coords = {}) {
         .then(function (data) {
 
             console.log(data);
+            // create and append current weather card
+            dataWeather = {};
+            dataWeather.date = dayjs.unix(data.current.dt).format('MM/DD/YYYY');
+            const currentIconCode = data.current.weather[0].icon;
+            dataWeather.iconLink = `https://openweathermap.org/img/wn/${currentIconCode}@2x.png`;
+            dataWeather.temp = data.current.temp;
+            dataWeather.wind = data.current.wind_speed;
+            dataWeather.humidity = data.current.humidity;
+            createCurrentWeatherCard(dataWeather);
+
             // form each day's forecast and add it to a forecast array
             const returnForecast = [];
             for (let i=1; i < 7; i++) {
@@ -156,6 +166,51 @@ function createForecastCard(forecast = {}) {
     forecastEl.append(card);  
 }
 
+function createCurrentWeatherCard(forecast = {}) {
+    // Almost identical to create forecast function but different bootstrap styling
+
+    // Create card container and card body
+    const card = document.createElement('div');
+    card.classList.add('card', 'col-12', 'col-md-9', 'col-lg-6', 'my-1', 'my-md-2','mx-md-2', 'bg-light-primary')
+    
+    const cardBody = document.createElement('div')
+    card.append(cardBody);
+    cardBody.classList.add('card-body');
+    
+    // add date as header to card
+    const cardHeader = document.createElement('h5');
+    cardBody.append(cardHeader);
+    // add icon to header
+    const icon = document.createElement('img');
+    icon.src = forecast.iconLink;
+    cardHeader.innerHTML = forecast.date;
+    cardHeader.appendChild(icon);
+    cardHeader.classList.add('card-title', 'mb-3', 'fs-3', 'text', 'text-center');
+
+    // add list of temp, wind, and humidity
+    const weatherAttr = document.createElement('ul');
+    cardBody.append(weatherAttr);
+    weatherAttr.classList.add('list-unstyled', 'card-text', 'fs-5', 'text-center');
+
+    const temp = document.createElement('li');
+    temp.classList.add('temp');
+    temp.textContent = `Temp: ${forecast.temp} °F`;
+
+    const wind = document.createElement('li');
+    wind.classList.add('wind');
+    wind.textContent = `Wind: ${forecast.wind} MPH`;
+
+    const humidity = document.createElement('li');
+    humidity.classList.add('humidity');
+    humidity.textContent = `Humidity: ${forecast.humidity} %`;
+
+    weatherAttr.appendChild(temp);
+    weatherAttr.appendChild(wind);
+    weatherAttr.appendChild(humidity);
+
+    // append the card to the forecast section
+    currentWeatherEl.append(card);  
+}
 
 // present city name, date, weather icon
 // temp, wind speed, humidity 

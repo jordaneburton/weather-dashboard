@@ -4,6 +4,13 @@
     color: white;
 }
 
+.bg-light-primary {
+    /* background-color: darkblue; */
+    background-image: linear-gradient(rgb(0, 98, 255), skyblue);
+    color: white;
+    text-shadow: 1px 1px 3px black;
+}
+
 body {
     width: 100%;
 }
