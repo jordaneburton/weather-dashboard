@@ -28,3 +28,4 @@ Jordan Burton
 ## Acknowledgments
 
 Thank you to [OpenWeather](https://openweathermap.org/api) for their API!
+Thank you to [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/) for the styling framework!
